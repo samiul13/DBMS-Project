@@ -1,4 +1,5 @@
 import Dashboard from "views/Dashboard.js";
+import IndividualAveragePLo from "views/IndividualAveragePLO.js";
 import StudentPerformance from "views/StudentPerformance.js";
 import FacultyStudentPerformance from "views/FacultyStudentPerformance.js";
 import ProgressView from "views/ProgressView.js";
@@ -20,10 +21,10 @@ const facultyRoutes = [
   },
 
   {
-    path: "/dataEntry",
+    path: "/individual-average-plo",
     name: "Invididual Vs. Average PLO",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: IndividualAveragePLo,
     layout: "/faculty",
   },
   {
