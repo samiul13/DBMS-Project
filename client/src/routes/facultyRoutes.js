@@ -1,5 +1,10 @@
 import Dashboard from "views/Dashboard.js";
 import IndividualAveragePLo from "views/IndividualAveragePLO.js";
+import IndividualProgramAveragePLo from "views/IndividualProgramAveragePLO.js";
+import IndividualPLOAchieved from "views/IndividualPLOAchieved.js";
+import CourseWisePLO from "views/CourseWisePLO";
+import CourseInstructorPLO from "views/CourseInstructorPLO.js";
+import PLOAchievement from "views/PLOAchievement.js";
 import StudentPerformance from "views/StudentPerformance.js";
 import FacultyStudentPerformance from "views/FacultyStudentPerformance.js";
 import ProgressView from "views/ProgressView.js";
@@ -28,31 +33,38 @@ const facultyRoutes = [
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
+    path: "/individual-program-average-plo",
     name: "Invididual Vs. Program Average PLO",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: IndividualProgramAveragePLo,
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
+    path: "/individual-plo-achieved",
     name: "Individual Course-Wise PLO",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: IndividualPLOAchieved,
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
+    path: "/course-instructor-plo",
     name: "Course-Wise PLO Among instructors",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: CourseInstructorPLO,
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
+    path: "/coursewise-plo",
     name: "Course-Wise PLO Comparison",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: CourseWisePLO,
+    layout: "/faculty",
+  },
+  {
+    path: "/semesterwise-plo",
+    name: "Semester-Wise PLO Achievement",
+    icon: "nc-icon nc-vector",
+    component: PLOAchievement,
     layout: "/faculty",
   },
   {
