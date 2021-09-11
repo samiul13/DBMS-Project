@@ -5,6 +5,7 @@ import IndividualPLOAchieved from "views/IndividualPLOAchieved.js";
 import CourseWisePLO from "views/CourseWisePLO";
 import CourseInstructorPLO from "views/CourseInstructorPLO.js";
 import PLOAchievement from "views/PLOAchievement.js";
+import ProgramwiseAttemptedVsAchieved from "views/ProgramwiseAttemptedVsAchieved";
 import StudentPerformance from "views/StudentPerformance.js";
 import FacultyStudentPerformance from "views/FacultyStudentPerformance.js";
 import ProgressView from "views/ProgressView.js";
@@ -68,10 +69,10 @@ const facultyRoutes = [
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
+    path: "/programwise-attempted-vs-achieved",
     name: "Program-Wise Att. Vs. Achv. PLO",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: ProgramwiseAttemptedVsAchieved,
     layout: "/faculty",
   },
   {
