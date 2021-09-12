@@ -7,12 +7,12 @@ const data = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     datasets: [
       {
-        label: "Individual Percentage PLO",
+        label: "Individual PLO for a Course",
         data: [12, 19, 3, 5, 2, 3, 10, 6, 4, 11, 15, 9],
         backgroundColor: "rgb(255, 99, 132)",
       },
       {
-        label: "Program Average PLO",
+        label: "Course Average PLO",
         data: [2, 3, 20, 5, 1, 4, 8, 9, 6, 7, 10, 16],
         backgroundColor: "rgb(54, 162, 235)",
       },

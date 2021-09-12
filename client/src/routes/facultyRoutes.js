@@ -1,4 +1,4 @@
-import Dashboard from "views/Dashboard.js";
+import Dashboard from "views/FacultyDashboard.js";
 import IndividualAveragePLo from "views/IndividualAveragePLO.js";
 import IndividualProgramAveragePLo from "views/IndividualProgramAveragePLO.js";
 import IndividualPLOAchieved from "views/IndividualPLOAchieved.js";
