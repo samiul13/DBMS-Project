@@ -31,6 +31,17 @@ app.get("/school/CGPA", (req, res) => {
   });
 });
 
+app.get("/individual/coursewisePLO", (req, res) => {
+  const sqlInsert = `SELECT s.schoolName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
+  FROM spm.school s
+  JOIN spm.student t ON t.schoolID = s.schoolID
+  GROUP BY s.schoolName;`;
+
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+});
+
 app.get("/program/CGPA", (req, res) => {
   const sqlInsert = `SELECT s.programName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
   FROM spm.program s
