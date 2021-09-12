@@ -1,0 +1,7 @@
+.FormGroup {
+    display: flex !important;   
+}
+
+.FormGroup>div {
+    padding-right: 10px;
+}

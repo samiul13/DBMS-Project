@@ -6,6 +6,9 @@ import CourseWisePLO from "views/CourseWisePLO";
 import CourseInstructorPLO from "views/CourseInstructorPLO.js";
 import PLOAchievement from "views/PLOAchievement.js";
 import ProgramwiseAttemptedVsAchieved from "views/ProgramwiseAttemptedVsAchieved";
+import UniversityProgramPLO from "views/UniversityProgramPLO.js";
+import UniversityProgramsGraduatesPLO from "views/UniversityProgramsGraduatesPLO.js";
+import UniversityWiseAttemptedVsAchievedPLO from "views/UniversityWiseAttemptedVsAchievedPLO";
 import StudentPerformance from "views/StudentPerformance.js";
 import FacultyStudentPerformance from "views/FacultyStudentPerformance.js";
 import ProgressView from "views/ProgressView.js";
@@ -76,17 +79,24 @@ const facultyRoutes = [
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
-    name: "University-Wise PLO Comparison",
+    path: "/university-program-wise-plo",
+    name: "University-Program Wise PLO",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: UniversityProgramPLO,
     layout: "/faculty",
   },
   {
-    path: "/dataEntry",
-    name: "Uni./Program-Wise PLO Comparison",
+    path: "/university-programs-graduates-plo",
+    name: "Uni./Programs PLO of Graduates",
     icon: "nc-icon nc-vector",
-    component: DataEntry,
+    component: UniversityProgramsGraduatesPLO,
+    layout: "/faculty",
+  },
+  {
+    path: "/university-wise-attempted-vs-achieved-plo",
+    name: "University-wise Att. Vs. Achv. PLO",
+    icon: "nc-icon nc-vector",
+    component: UniversityWiseAttemptedVsAchievedPLO,
     layout: "/faculty",
   },
   {
