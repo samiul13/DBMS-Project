@@ -4,7 +4,7 @@ body > .navbar-collapse{
     top: 0;
     bottom: 0;
     left: 0;
-    width: 360px;
+    width: 400px;
     display: block;
     z-index: 1;
     color: #fff;
@@ -17,7 +17,7 @@ body > .navbar-collapse{
         max-height: calc(100vh - 75px);
         min-height: 100%;
         overflow: auto;
-        width: 360px;
+        width: 400px;
         z-index: 4;
         padding-bottom: 100px;
     }
@@ -264,10 +264,10 @@ body > .navbar-collapse{
     background: rgba(203,203,210,.15);
     position: relative;
     float: right;
-    width: /*$sidebar-width */ calc(100% - 360px);
+    width: /*$sidebar-width */ calc(100% - 400px);
     min-height: 100%;
 
-    > .content{
+    > .content {
         padding: 30px 15px;
         min-height: calc(100% - 123px);
     }
