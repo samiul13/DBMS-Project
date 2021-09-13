@@ -170,7 +170,7 @@ function PLO() {
     <>
       <Container fluid>
           <Row>
-      <Col md="8">
+      <Col md="12">
             <Card>
               <Card.Header>
                 <Card.Title as="h4">PLO Achievement Percentage</Card.Title>
@@ -178,97 +178,10 @@ function PLO() {
               <Card.Body>
               <Table columns={columns} data={data} />
               </Card.Body>
-              <Card.Footer>
-                <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
-                <hr></hr>
-              </Card.Footer>
+              
             </Card>
           </Col>
           </Row>
-          
-     
-        <Row>
-          <Col md="8">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Student wise PLO</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <div className="ct-chart" id="chartHours">
-                  <ChartistGraph
-                    data={studentData}
-                    options={studentOptions}
-                    type={type}
-                  />
-                </div>
-              </Card.Body>
-              <Card.Footer>
-                <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
-                <hr></hr>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col md="8">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Department wise PLO</Card.Title>
-              </Card.Header>
-              <Card.Body>
-              <div className="ct-chart" id="chartHours">
-                  <ChartistGraph
-                    data={departmentData}
-                    options={departmentOptions}
-                    type={type}
-                  />
-                </div>
-
-                <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col md="8">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Course wise PLO</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <div className="ct-chart" id="chartActivity">
-                  <ChartistGraph
-                    data={courseData}
-                    options={courseOptions}
-                    type={type}
-                    responsiveOptions={[
-                      [
-                        "screen and (max-width: 640px)",
-                        {
-                          seriesBarDistance: 5,
-                          axisX: {
-                            labelInterpolationFnc: function (value) {
-                              return value[0];
-                            },
-                          },
-                        },
-                      ],
-                    ]}
-                  />
-                </div>
-              </Card.Body>
-              <Card.Footer>
-                <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
-                <hr></hr>
-              </Card.Footer>
-            </Card>
-          </Col>
-        </Row>
       </Container>
     </>
   );

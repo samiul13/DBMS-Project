@@ -8,7 +8,7 @@ const data = {
   datasets: [
     {
       label: "Attempted Vs. Achieved PLO",
-      data: [120, 70],
+      data: [320, 295],
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -86,15 +86,17 @@ class UniversitywiseAttemptedVsAchieved extends Component {
       semesterStart,
       semesterEnd,
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+
+  /*   axios
+      .post("http://localhost:5000/universitywiseattvsachievedplo", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   render() {
@@ -246,6 +248,8 @@ class UniversitywiseAttemptedVsAchieved extends Component {
             Submit
           </Button>
         </Form>
+        {this.state.data.length > 0 ? (
+          <>
         <Row>
           <div className="header">
             <h6 className="title">
@@ -259,7 +263,7 @@ class UniversitywiseAttemptedVsAchieved extends Component {
       
           <Bar data={data} options={options} />
   
-        </Row>
+        </Row></>):null}
       </Container>
     );
   }

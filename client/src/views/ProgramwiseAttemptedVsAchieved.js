@@ -8,7 +8,7 @@ const data = {
     datasets: [
       {
         label: 'Attempted Vs. Achieved PLO',
-        data: [120, 70],
+        data: [120, 95],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -49,6 +49,7 @@ class ProgramwiseAttemptedVsAchieved extends Component {
       studentID: "",
       schoolID: "",
       course: "",
+      programID: '',
       semesterStart: "",
       semesterEnd: "",
       data: [],
@@ -78,15 +79,15 @@ class ProgramwiseAttemptedVsAchieved extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { studentID, schoolID } = this.state;
+    const { programID, semesterStart, semesterEnd } = this.state;
 
     const newData = {
-      studentID,
-      schoolID,
+      programID, semesterStart, semesterEnd
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
     axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+      .post("http://localhost:5000/attemptedvsachievedplo", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
@@ -102,24 +103,16 @@ class ProgramwiseAttemptedVsAchieved extends Component {
         value: "B.Sc in EEE",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "B.Sc in CSE",
+        value: "B.Sc in CSE",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "B.Sc in CS",
+        value: "B.Sc in CS",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
-      },
-      {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
-      },
-      {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "BBA in Finance",
+        value: "BBA in Finance",
       },
     ];
     let semesterOptions = [
@@ -219,6 +212,8 @@ class ProgramwiseAttemptedVsAchieved extends Component {
             Submit
           </Button>
         </Form>
+        {this.state.data.length > 0 ? (
+          <>
         <div className="header">
           <h6 className="title">
             Following chart shows the count of students who attempted each PLO
@@ -227,7 +222,7 @@ class ProgramwiseAttemptedVsAchieved extends Component {
         </div>
         <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
         <Bar data={data} options={options} />
-        </Row>
+        </Row></>): null}
       </Container>
     );
   }

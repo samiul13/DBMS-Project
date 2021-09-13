@@ -7,8 +7,8 @@ const data = {
   labels: ["CSE303", "CSE206", "CSE201", "CSE203", "CSE317", "CSE405"],
   datasets: [
     {
-      label: "Course-wise PLO",
-      data: [12, 19, 3, 5, 2, 3],
+      label: "PLO1",
+      data: [62, 69, 74, 65, 60, 79],
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -49,6 +49,7 @@ class CourseWisePLO extends Component {
          plo: "",
          semesterStart: "",
          semesterEnd: "",
+         data:[]
         };
     
         this.handleChange = this.handleChange.bind(this);
@@ -73,15 +74,15 @@ class CourseWisePLO extends Component {
         const newData = {
             plo, semesterStart, semesterEnd
         };
-    
-        axios
-          .post("http://localhost:5000/dean/studentGrades", newData)
+        this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
+       /*  axios
+          .post("http://localhost:5000/instructorcoursewisePLO", newData)
     
           .then((res) =>
             this.setState((prevState) => ({
               data: [...prevState.data, res.data],
             }))
-          );
+          ); */
       };
     
   render() {
@@ -254,6 +255,8 @@ class CourseWisePLO extends Component {
             Submit
           </Button>
         </Form>
+        {this.state.data.length > 0 ? (
+          <>
         <div className="header">
           <h6 className="title">
             The follwoing chart shows a comparison of PLO achievement percentage
@@ -263,7 +266,7 @@ class CourseWisePLO extends Component {
         </div>
         <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
         <Bar data={data} options={options} />
-        </Row>
+        </Row></>):null}
       </Container>
     );
   }

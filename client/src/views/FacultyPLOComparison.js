@@ -87,15 +87,16 @@ class FacultyPLOComparison extends Component {
       semesterStart,
       semesterEnd,
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
+ /*    axios
       .post("http://localhost:5000/dean/studentGrades", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   render() {
@@ -264,6 +265,8 @@ class FacultyPLOComparison extends Component {
           </Button>
           </Row>
         </Form>
+        {this.state.data.length > 0 ? (
+         <> 
         <Row>
         <div className="header">
           <h6 className="title">
@@ -273,11 +276,11 @@ class FacultyPLOComparison extends Component {
           </h6>
         </div>
         </Row>
-        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: "30vh" }}>
           <div style={{ height: "50vh" }}>
           <Doughnut data={data} />
           </div>
-        </Row>
+        </Row></>):null}
        
       </Container>
     );

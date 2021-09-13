@@ -4,16 +4,16 @@ import { Form, Button, Dropdown, Table } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 const data = {
-  labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+  labels: ["PLO1", "PLO2", "PLO3", "PLO4", "PLO5", "PLO6", "PLO7", "PLO8", "PLO9", "PLO10", "PLO11", "PLO12"],
   datasets: [
     {
       label: "Achieved Percentage",
-      data: [12, 19, 3, 5, 2, 3, 10, 6, 4, 11, 15, 9],
+      data: [72, 55, 80, 59, 71, 55, 85, 68, 45, 81, 69, 80],
       backgroundColor: "rgb(255, 99, 132)",
     },
     {
       label: "Failed Percentage",
-      data: [2, 3, 20, 5, 1, 4, 8, 9, 6, 7, 10, 16],
+      data: [28, 45, 20, 31, 29, 45, 15, 32, 55, 19, 31, 20],
       backgroundColor: "rgb(54, 162, 235)",
     },
   ],
@@ -62,9 +62,9 @@ class PLOAchievement extends Component {
       studentID,
       schoolID,
     };
-
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
     axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+      .post("http://localhost:5000/ploachievement", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
@@ -152,13 +152,15 @@ class PLOAchievement extends Component {
             Submit
           </Button>
         </Form>
+        {this.state.data.length > 0 ? (
+          <>
         <div className="header">
           <h6 className="title">
             Following chart shows the percentage of students who achieved each
             of the PLOs and that of those who failed
           </h6>
         </div>
-        <Bar data={data} options={options} />
+        <Bar data={data} options={options} /></>):null}
       </>
     );
   }

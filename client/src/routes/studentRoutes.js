@@ -1,4 +1,4 @@
-import Dashboard from "views/Dashboard.js";
+import StudentDashboard from "views/StudentDashboard.js";
 import StudentPerformance from "views/StudentPerformance.js";
 import FacultyStudentPerformance from "views/FacultyStudentPerformance.js";
 import ProgressView from "views/ProgressView.js";
@@ -15,37 +15,10 @@ const studentRoutes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
-    component: Dashboard,
+    component: StudentDashboard,
     layout: "/student",
   },
-  {
-    path: "/studentPerformance",
-    name: "Student Performance",
-    icon: "nc-icon nc-chart",
-    component: StudentPerformance,
-    layout: "/student",
-  },
-  {
-    path: "/facultyStudentPerformance",
-    name: "Faculty-Student-GPA",
-    icon: "nc-icon nc-tablet-2",
-    component: FacultyStudentPerformance,
-    layout: "/student",
-  },
-  {
-    path: "/courseStudentPerformance",
-    name: "Course-Student-GPA",
-    icon: "nc-icon nc-paper-2",
-    component: CourseStudentPerformance,
-    layout: "/student",
-  },
-  {
-    path: "/deanStudentPerformance",
-    name: "Dean-Student-GPA",
-    icon: "nc-icon nc-single-copy-04",
-    component: DeanStudentPerformance,
-    layout: "/student",
-  },
+ 
   {
     path: "/plo",
     name: "PLO Analysis",

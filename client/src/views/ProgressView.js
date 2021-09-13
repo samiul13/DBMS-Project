@@ -126,30 +126,11 @@ function ProgressView() {
   return (
     <>
       <Container fluid>
-      <Row>
-      <Col md="8">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Course Success Rate</Card.Title>
-              </Card.Header>
-              <Card.Body>
-              <Table columns={columns} data={data} />
-              </Card.Body>
-              <Card.Footer>
-                <div className="legend">
-                  <h6>Number of students: 88</h6>
-                </div>
-                <hr></hr>
-              </Card.Footer>
-            </Card>
-          </Col>
-          </Row> 
-          
         <Row>
           <Col md="8">
             <Card>
               <Card.Header>
-                <Card.Title as="h4">Student's Semester wise Progress View</Card.Title>
+                <Card.Title as="h4">Semester wise Progress View</Card.Title>
               </Card.Header>
               <Card.Body>
                 <div className="ct-chart" id="chartHours">
@@ -166,7 +147,7 @@ function ProgressView() {
           <Col md="8">
             <Card>
               <Card.Header>
-                <Card.Title as="h4">Semester wise Progress View</Card.Title>
+                <Card.Title as="h4">Department wise Progress View</Card.Title>
               </Card.Header>
               <Card.Body>
               <div className="ct-chart" id="chartHours">

@@ -22,7 +22,7 @@ const data = {
   datasets: [
     {
       label: "University-Program Wise PLO",
-      data: [2, 9, 3, 5, 2, 3, 7, 12, 14, 4, 16, 8],
+      data: [70, 65, 51, 82, 62, 75, 69, 80, 81, 61, 77, 68],
       backgroundColor: "rgba(255, 99, 132, 0.2)",
       borderColor: "rgba(255, 99, 132, 1)",
       borderWidth: 1,
@@ -79,15 +79,16 @@ class UniversityProgramPLO extends Component {
       semesterStart,
       semesterEnd,
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+   /*  axios
+      .post("http://localhost:5000/universityprogramplo", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   render() {
@@ -111,24 +112,16 @@ class UniversityProgramPLO extends Component {
         value: "B.Sc in EEE",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "B.Sc in CSE",
+        value: "B.Sc in CSE",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "B.Sc in CS",
+        value: "B.Sc in CS",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
-      },
-      {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
-      },
-      {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "BBA in Finance",
+        value: "BBA in Finance",
       },
     ];
     let semesterOptions = [
@@ -256,7 +249,8 @@ class UniversityProgramPLO extends Component {
             Submit
           </Button>
         </Form>
-
+        {this.state.data.length > 0 ? (
+          <>
         <div className="header">
           <h6 className="title">
             Following chart shows a radar chart showing the PLO achieved count
@@ -268,7 +262,7 @@ class UniversityProgramPLO extends Component {
           <div style={{height: '50vh'}}>
           <Radar data={data} />
           </div>
-        </Row>
+        </Row></>): null}
       </Container>
     );
   }

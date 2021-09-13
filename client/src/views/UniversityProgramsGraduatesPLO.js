@@ -9,7 +9,7 @@ const data = {
   datasets: [
     {
       label: "University-Programs PLO of Graduates",
-      data: [70, 80, 60],
+      data: [70, 80, 65],
       backgroundColor: "rgba(255, 99, 132, 0.2)",
       borderColor: "rgba(255, 99, 132, 1)",
       borderWidth: 1,
@@ -64,15 +64,16 @@ class UniversityProgramPLO extends Component {
       program2,
       program3,
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+ /*    axios
+      .post("http://localhost:5000/universityprogramploofgraduates", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   render() {
@@ -96,24 +97,16 @@ class UniversityProgramPLO extends Component {
         value: "B.Sc in EEE",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "B.Sc in CSE",
+        value: "B.Sc in CSE",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "B.Sc in CS",
+        value: "B.Sc in CS",
       },
       {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
-      },
-      {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
-      },
-      {
-        label: "B.Sc in EEE",
-        value: "B.Sc in EEE",
+        label: "BBA in Finance",
+        value: "BBA in Finance",
       },
     ];
 
@@ -210,18 +203,19 @@ class UniversityProgramPLO extends Component {
             Submit
           </Button>
         </Form>
-
+        {this.state.data.length > 0 ? (
+          <>
         <div className="header">
           <h6 className="title">
             Following chart shows a radar chart showing the percentage of
             graduates who have achieved all PLOs of the chosen programs.
           </h6>
         </div>
-        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: '20vh' }}>
           <div style={{height: '50vh'}}>
         <Radar data={data} />
         </div>
-        </Row>
+        </Row></> ): null}
       </Container>
     );
   }

@@ -69,43 +69,59 @@ class DepartmentSchoolPLO extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { facultyID, course } = this.state;
+    const { school1, school2 } = this.state;
 
     const newData = {
-      facultyID,
-      course,
+      school1, school2
     };
-
-    axios
-      .post("http://localhost:5000/faculty/studentGrades", newData)
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
+    /* axios
+      .post("http://localhost:5000/schoolwisecomparison", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   handleInputSubmit = (e) => {
     e.preventDefault();
 
-    const { facultyID, course, studentID } = this.state;
+    const { department1, department2 } = this.state;
 
     const newData = {
-      facultyID,
-      course,
-      studentID,
+      department1, department2 
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
-      .post("http://localhost:5000/faculty/studentGrade", newData)
+   /*  axios
+      .post("http://localhost:5000/departmentwisecomparison", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data1: [...prevState.data, res.data],
         }))
-      );
-    console.log(this.state.data1);
+      ); */
+  };
+  handleInputSubmit1 = (e) => {
+    e.preventDefault();
+
+    const { department1, department2 } = this.state;
+
+    const newData = {
+      department1, department2 
+    };
+    this.setState({ data1: [...this.state.data, ...[1, 2, 3]] });
+
+   /*  axios
+      .post("http://localhost:5000/departmentwisecomparison", newData)
+
+      .then((res) =>
+        this.setState((prevState) => ({
+          data1: [...prevState.data, res.data],
+        }))
+      ); */
   };
 
   render() {
@@ -305,12 +321,12 @@ class DepartmentSchoolPLO extends Component {
             </div>
           </div>
 
-          <Button variant="success" type="submit" style={{ marginTop: "50px" }}>
+          <Button variant="primary" type="submit" style={{ marginTop: "50px" }}>
             Submit
           </Button>
         </Form>
-        {this.state.data.length >= 0 ? (
-          <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: '20vh' }}>
+        {this.state.data.length > 0 ? (
+          <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: '30vh' }}>
           <div style={{ height: "60vh" }}>
           <Pie data={data} />
           </div>
@@ -321,7 +337,7 @@ class DepartmentSchoolPLO extends Component {
         <p style={{ marginTop: "50px" }}>
           Compare Department wise PLO of students who achieved all the PLOs:
         </p>
-        <Form onSubmit={this.handleInputSubmit}>
+        <Form onSubmit={this.handleInputSubmit1}>
         <div className="FormGroup">
             <div>
               <Form.Group controlId="formBasicEmail" key="2">
@@ -411,8 +427,8 @@ class DepartmentSchoolPLO extends Component {
             Submit
           </Button>
         </Form>
-        {this.state.data1.length >= 0 ? (
-          <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+        {this.state.data1.length > 0 ? (
+          <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: "35vh" }}>
           <div style={{ height: "50vh" }}>
           <Pie data={data1} />
           </div>

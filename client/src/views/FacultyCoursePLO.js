@@ -4,11 +4,11 @@ import { Form, Button, Dropdown, Table } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 const data = {
-    labels: ['Course1', 'Course2', 'Course3'],
+    labels: ['CSE101', 'CSE201', 'CSE303'],
     datasets: [
       {
         label: 'Faculty-Course wise PLO',
-        data: [70, 80, 85],
+        data: [70, 80, 65],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -84,15 +84,16 @@ class FacultyCoursePLO extends Component {
     const newData = {
         facultyID, semesterStart, semesterEnd
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+/*     axios
+      .post("http://localhost:5000/facultycourseplo", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   render() {
@@ -188,6 +189,8 @@ class FacultyCoursePLO extends Component {
             Submit
           </Button>
         </Form>
+        {this.state.data.length > 0 ? (
+          <>
         <div className="header">
           <h6 className="title">
             Following chart shows the percentage of students who
@@ -195,7 +198,7 @@ achieved each PLO in the course/s taught by an instructor within a
 chosen time frame.
           </h6>
         </div>
-        <Bar data={data} options={options} />
+        <Bar data={data} options={options} /></>): null}
       </>
     );
   }

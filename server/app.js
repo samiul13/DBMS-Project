@@ -158,62 +158,387 @@ app.get("/individualploachievementofcourses", (req, res) => {
   });
 });
 
-app.get("/individual/coursewisePLO", (req, res) => {
-  const sqlInsert = `SELECT s.schoolName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
-  FROM spm.school s
-  JOIN spm.student t ON t.schoolID = s.schoolID
-  GROUP BY s.schoolName;`;
+app.get("/instructorcoursewisePLO", (req, res) => {
+  const sqlInsert = `
+  SELECT 
+    p.PLONumber AS ploNumber,
+    f.FacultyID,
+    co.CourseID,
+    SUM(e.MarksObtained),
+    SUM(a.TotalMarks),
+    Data.T
+FROM
+    (SELECT 
+            f.FacultyID AS FacultyID,
+            st.studentID AS StudentID,
+            c.courseID AS CourseID,
+            100 * SUM(e.MarksObtained) / SUM(a.TotalMarks) AS perPLO
+    FROM
+        usms.enrollment r, usms.assessment a, usms.evaluation e, usms.co co, usms.plo p, usms.student st, usms.section sc, usms.course c, usms.faculty f
+    WHERE
+        st.StudentID = r.StudentID
+            AND r.SectionID = sc.sectionID
+            AND r.enrollmentID = e.enrollmentID
+            AND e.AssessmentID = a.AssessmentID
+            AND sc.CourseID = 1234
+            AND r.SemesterID = 1234
+    GROUP BY sc.FacultyID, st.StudentID , a.AssessmentTitle) Data
+GROUP BY FacultyID
+  `;
 
   db.query(sqlInsert, (err, result) => {
     res.send(result);
   });
 });
 
-app.get("/program/CGPA", (req, res) => {
-  const sqlInsert = `SELECT s.programName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
-  FROM spm.program s
-  JOIN spm.student t ON t.programID = s.programID
-  GROUP BY s.programName;`;
+app.get("/coursewiseplo", (req, res) => {
+
+  const sqlInsert = `
+  SELECT Data.PLONumber, avg(perCourse)
+  FROM(
+  SELECT p.PLOID as PLOID, p.PLONumber as ploNumber, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perCourse
+  FROM usms.enrollment r,
+  usms.evaluation e,
+  usms.student st,
+  usms.program prog,
+  usms.assessment a,
+  usms.co c,
+  usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.EnrollmentID= r.EnrollmentID
+  and a.AssessmentID = e.AssessmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.ProgramID = 1234
+  and p.PLONumber = 1234
+  GROUP BY p.PLOID,r.StudentID) Data
+  GROUP BY Data.PLOID
+  `;
+
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+
+});
+
+app.get("/ploachievement", (req, res) => {
+  const sqlInsert = `SELECT p.ploNum as ploNum,100*sum(e.obtainedMarks)/sum(a.totalMarks)
+  as perPLO
+  FROM 
+  usms.enrollment r
+  usms.evaluation e,
+  usms.student st,
+  usms.program prog,
+  usms.assessment a,
+  usms.co c,
+  usms.plo p
+  WHERE r.EnrollmentID = r.EnrollmentID
+  and e.AssessmentID = a.AssessmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and r.SemesterID = ${req.body.SemesterID}
+  GROUP BY p.ploNumber,c.CourseID) Data1;
+  
+  SELECT p.ploNum as ploNum,100*sum(e.obtainedMarks)/sum(a.totalMark
+  s) as Data2
+  usms.enrollment r
+  usms.evaluation e,
+  usms.student st,
+  usms.program prog,
+  usms.assessment a,
+  usms.co c,
+  usms.plo p
+  WHERE r.EnrollmentID = r.EnrollmentID
+  and e.AssessmentID = a.AssessmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and r.SemesterID = ${req.body.SemesterID}
+  GROUP BY p.ploNumber,c.CourseID) Data2;
+  HAVING 100*sum(e.MarksObtained)/sum(a.TotalMarks)>=40) Data1`;
 
   db.query(sqlInsert, (err, result) => {
     res.send(result);
   });
 });
 
-app.get("/department/CGPA", (req, res) => {
-  const sqlInsert = `SELECT s.departmentName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
-  FROM spm.department s
-  JOIN spm.student t ON t.departmentID = s.departmentID
-  GROUP BY s.departmentName;`;
+app.get("/attempetedvsachievedplo", (req, res) => {
+  const sqlInsert =`
+    SELECT Data.plonum, avg(perPLO)
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNum as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO
+  FROM usms.enrollment r,
+    usms.evaluation e,
+    usms.student st,
+    usms.program prog,
+    usms.assessment a,
+    usms.co c,
+    usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.registration_id = r.registrationID
+  and a.AssessmentID = e.AssesmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.ProgramID = '{}'
+  GROUP BY r.StudentID, p.PLOID) Data
+  GROUP BY Data.PLOID
+  `;
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+});
+
+app.get("/universityprogramplo", (req, res) => {
+  const sqlInsert =`
+  SELECT Data.plonum, avg(perPLO)
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNum as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO
+  FROM 
+    usms.univeristy u,
+    usms.enrollment r,
+    usms.evaluation e,
+    usms.student st,
+    usms.program prog,
+    usms.assessment a,
+    usms.co c,
+    usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.registration_id = r.registrationID
+  and a.AssessmentID = e.AssesmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.UniversityID = ${req.body.universityID}
+  and st.programID = ${req.body.ProgramID}
+  GROUP BY r.StudentID, p.PLOID, u.UniversityID) Data
+  GROUP BY Data.UniversityiD;
+  `
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+
+});
+
+app.get("/universityprogramploofgraduates", (req, res) => {
+
+  const sqlInsert =`
+  SELECT Data1.plonumber, Data2.ploNumber, Data3.ploNumber avg(perPLO1), avg(perPLo2), avg(perPLo3)
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNum as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO1
+  FROM 
+    usms.univeristy u,
+    usms.enrollment r,
+    usms.evaluation e,
+    usms.student st,
+    usms.program prog,
+    usms.assessment a,
+    usms.co c,
+    usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.registration_id = r.registrationID
+  and a.AssessmentID = e.AssesmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.UniversityID = ${req.body.universityID}
+  and st.programID = ${req.body.ProgramID}
+  GROUP BY r.StudentID, p.PLOID, u.UniversityID) Data1
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNum as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO2
+  FROM 
+    usms.univeristy u,
+    usms.enrollment r,
+    usms.evaluation e,
+    usms.student st,
+    usms.program prog,
+    usms.assessment a,
+    usms.co c,
+    usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.registration_id = r.registrationID
+  and a.AssessmentID = e.AssesmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.UniversityID = ${req.body.universityID}
+  and st.programID = ${req.body.ProgramID}
+  GROUP BY r.StudentID, p.PLOID, u.UniversityID) Data2
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNum as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO3
+  FROM 
+    usms.univeristy u,
+    usms.enrollment r,
+    usms.evaluation e,
+    usms.student st,
+    usms.program prog,
+    usms.assessment a,
+    usms.co c,
+    usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.EnrollmentID = r.EnrollmentID
+  and a.AssessmentID = e.AssesmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.UniversityID = ${req.body.universityID}
+  and st.programID = ${req.body.ProgramID}
+  GROUP BY r.StudentID, p.PLOID, u.UniversityID) Data3
+  GROUP BY Data1.UniversityID, Data2.UniversityID, Data3.UniversityID
+  `;
+    
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+});
+
+app.get("universitywiseAttvsachievedplo", (req, res) => {
+  const ploNumber = req.body.ploNumber;
+  const universityID = req.body.universityID;
+  const sqlInsert = `
+  SELECT Data.plonum, avg(perPLO)
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNum as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO
+  FROM 
+    usms.univeristy u,
+    usms.enrollment r,
+    usms.evaluation e,
+    usms.student st,
+    usms.program prog,
+    usms.assessment a,
+    usms.co c,
+    usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.ProgramID = prog.ProgramID
+  and e.registration_id = r.registrationID
+  and a.AssessmentID = e.AssesmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  and st.UniversityID = ${ploNumber}
+  and st.PLONumber = ${universityID}
+  GROUP BY r.StudentID, p.PLOID, u.UniversityID) Data
+  GROUP BY Data.StudentID;
+  `;
 
   db.query(sqlInsert, (err, result) => {
     res.send(result);
   });
 });
 
-app.get("/department/enrollment", (req, res) => {
-  const sqlInsert =
-    "SELECT d.departmentName, COUNT(s.studentID) AS noOfStudents, CONCAT(c.semesterName, ' ', c.year) AS Semester FROM spm.department d LEFT JOIN spm.student s ON d.departmentID = s.departmentID INNER JOIN spm.semester c ON c.semesterID = d.semesterID GROUP by d.departmentID ORDER by COUNT(s.studentID) DESC, d.departmentName ASC";
+app.get("/departmentplocomparison", (req, res) => {
+
+  const sqlInsert = `
+  SELECT Data1.PLONumber, Data2.PLONumber, avg(perPLO1), avg(perPLO2)
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNumber as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO1
+      usms.enrollment r,
+      usms.evaluation e,
+      usms.student st,
+      usms.program prog,
+      usms.assessment a,
+      usms.co c,
+      usms.plo p
+    WHERE r.StudentID = st.StudentID
+    and st.ProgramID = prog.ProgramID
+    and e.EnrollmentID = r.EnrollmentID
+    and a.AssessmentID = e.AssesmentID
+    and a.COID = c.COID
+    and c.PLOID = p.PLOID
+  and st.DepartmentID= ${req.body.departmentID}
+  GROUP BY p.ploNum,r.student_id) Data1
+
+  SELECT p.ploID as PLOID, p.ploNumber as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO2
+      usms.enrollment r,
+      usms.evaluation e,
+      usms.student st,
+      usms.program prog,
+      usms.assessment a,
+      usms.co c,
+      usms.plo p
+    WHERE r.StudentID = st.StudentID
+    and st.ProgramID = prog.ProgramID
+    and e.EnrollmentID = r.EnrollmentID
+    and a.AssessmentID = e.AssesmentID
+    and a.COID = c.COID
+    and c.PLOID = p.PLOID
+  and st.DepartmentID = ${req.body.departmentID}
+  GROUP BY p.ploNum,r.student_id) Data2
+
+  GROUP BY Data1.PLoNumber, Data2.PLoNumber;
+  `;
+
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+});
+app.get("schoolplocomparison", (req, res) => {
+
+  const sqlInsert = `
+    SELECT Data1.PLONumber, Data2.PLONumber, avg(perPLO1), avg(perPLO2)
+  FROM(
+  SELECT p.ploID as PLOID, p.ploNumber as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO1
+      usms.enrollment r,
+      usms.evaluation e,
+      usms.student st,
+      usms.program prog,
+      usms.department d,
+      usms.assessment a,
+      usms.co c,
+      usms.plo p
+    WHERE r.StudentID = st.StudentID
+    and st.ProgramID = prog.ProgramID
+    and e.EnrollmentID = r.EnrollmentID
+    and a.AssessmentID = e.AssesmentID
+    and a.COID = c.COID
+    and c.PLOID = p.PLOID
+  and st.DepartmentID= ${req.body.departmentID}
+  and d.departmentID = st.DepartmentID
+  and d.schoolID = ${req.body.schoolID}
+
+  GROUP BY p.ploNum,r.student_id) Data1
+
+  SELECT p.ploID as PLOID, p.ploNumber as ploNum, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perPLO2
+      usms.enrollment r,
+      usms.evaluation e,
+      usms.student st,
+      usms.program prog,
+      usms.department d
+      usms.assessment a,
+      usms.co c,
+      usms.plo p
+    WHERE r.StudentID = st.StudentID
+    and st.ProgramID = prog.ProgramID
+    and e.EnrollmentID = r.EnrollmentID
+    and a.AssessmentID = e.AssesmentID
+    and a.COID = c.COID
+    and c.PLOID = p.PLOID
+  and st.DepartmentID= ${req.body.departmentID}
+  and d.departmentID = st.DepartmentID
+  and d.schoolID = ${req.body.schoolID}
+
+  GROUP BY p.ploNum,r.student_id) Data2
+
+  GROUP BY Data1.PLoNumber, Data2.PLoNumber;
+
+  `;
+
+  db.query(sqlInsert, (err, result) => {
+    res.send(result);
+  });
+});
+app.get("/faculty/studentGrades", (req, res) => {
+  const sqlInsert = `
+  SELECT f.facultyId, CONCAT(f.first_name, " ", f.last_name) AS FacultyName,
+  s.courseName, s.studentID, s.grade
+  FROM spm.faculty f
+  LEFT JOIN spm.course_grade s ON f.facultyID = s.facultyID
+  WHERE f.facultyID = ${req.body.facultyID}`;
+
   db.query(sqlInsert, (err, result) => {
     res.send(result);
   });
 });
 
-app.get("/program/enrollment", (req, res) => {
-  const sqlInsert =
-    "SELECT d.programName, COUNT(s.studentID) as noOfStudents, CONCAT(c.semesterName, ' ', c.year) AS Semester FROM spm.program d LEFT JOIN spm.student s ON d.programID = s.programID INNER JOIN spm.semester c ON c.semesterID = d.semesterID GROUP by d.programID ORDER by COUNT(s.studentID) DESC, d.programName ASC";
-  db.query(sqlInsert, (err, result) => {
-    res.send(result);
-  });
-});
-
-app.get("/school/enrollment", (req, res) => {
-  const sqlInsert =
-    "SELECT d.schoolName, COUNT(s.studentID) as noOfStudents, CONCAT(c.semesterName, ' ', c.year) AS Semester FROM spm.school d LEFT JOIN spm.student s ON d.schoolID = s.schoolID INNER JOIN spm.semester c ON c.semesterID = d.semesterID GROUP by d.schoolID ORDER by COUNT(s.studentID) DESC, d.schoolName ASC";
-  db.query(sqlInsert, (err, result) => {
-    res.send(result);
-  });
-});
 
 app.post("/assessment", (req, res) => {
   const courseName = JSON.stringify(req.body.course);
@@ -335,7 +660,7 @@ app.post("/course/studentGrades", (req, res) => {
   var c = JSON.stringify(req.body.course);
   const grades = `SELECT R.studentID, R.courseName, R.grade
   FROM spm.course_grade R
-  WHERE R.courseName = ${c}`;
+  WHERE R.courseName = ${c} and R.studentID=${2022053}`;
 
   db.query(grades, (err, result) => {
     res.send(result);

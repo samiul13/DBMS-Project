@@ -64,17 +64,15 @@ class Login extends Component {
           <div>
             <img
               style={{
-                width: "170px",
-                height: "150px",
+                width: "230px",
+                height: "110px",
                 justifyContent: "center",
               }}
-              src={require("assets/img/logo.png").default}
+              src={require("assets/img/logo1.png").default}
               alt="..."
             />
           </div>
-          <h4>
-            <b>USMS</b>
-          </h4>
+        
         </div>
 
         <div id="login-form">
