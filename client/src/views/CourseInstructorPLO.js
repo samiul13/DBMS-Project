@@ -4,21 +4,21 @@ import { Form, Button, Container, Row } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 const data = {
-  labels: ["1", "2", "3"],
+  labels: ["PLO1", "PLO2", "PLO3", "PLO4", "PLO5", "PLO6", "PLO7", "PLO12"],
   datasets: [
     {
       label: "Sadita Ahmed",
-      data: [12, 19, 6],
+      data: [72, 59, 65, 81, 60, 84, 61, 60],
       backgroundColor: "rgb(255, 99, 132)",
     },
     {
       label: "Abu Syed",
-      data: [2, 3, 20],
+      data: [78, 60, 61, 75, 71, 79, 68, 70],
       backgroundColor: "rgb(54, 162, 235)",
     },
     {
       label: "Mahadi Hasan",
-      data: [7, 11, 5],
+      data: [62, 55, 60, 78, 62, 74, 60, 65],
       backgroundColor: "rgb(0,128,0)",
     },
   ],
@@ -43,6 +43,7 @@ class CourseInstructorPLO extends Component {
       studentID: "",
       schoolID: "",
       course: "",
+      courseID: "",
       semesterStart: "",
       semesterEnd: "",
       data: [],
@@ -71,22 +72,20 @@ class CourseInstructorPLO extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
-    const { studentID, schoolID } = this.state;
-
+    const { courseID } = this.state;
     const newData = {
-      studentID,
-      schoolID,
+      courseID,
     };
+    this.setState({ data: [...this.state.data, ...[1, 2, 3]] });
 
-    axios
-      .post("http://localhost:5000/dean/studentGrades", newData)
+    /*   axios
+      .post("http://localhost:5000/instructorcourseplo", newData)
 
       .then((res) =>
         this.setState((prevState) => ({
           data: [...prevState.data, res.data],
         }))
-      );
+      ); */
   };
 
   render() {
@@ -213,16 +212,23 @@ class CourseInstructorPLO extends Component {
             Submit
           </Button>
         </Form>
-        <div className="header">
-          <h6 className="title">
-            Following chart shows the comparison of the PLO achieved percentage
-            for each PLO among the instructors who have taken the course for a
-            choosen time period.
-          </h6>
-        </div>
-        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
-          <Bar data={data} options={options} />
-        </Row>
+        {this.state.data.length > 0 ? (
+          <>
+            <div className="header">
+              <h6 className="title">
+                Following chart shows the comparison of the PLO achieved
+                percentage for each PLO among the instructors who have taken the
+                course for a choosen time period.
+              </h6>
+            </div>
+            <Row
+              md={2}
+              style={{ justifyContent: "center", alignItems: "center" }}
+            >
+              <Bar data={data} options={options} />
+            </Row>
+          </>
+        ) : null}
       </Container>
     );
   }

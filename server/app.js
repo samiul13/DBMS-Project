@@ -20,7 +20,70 @@ const db = mysql.createPool({
   database: "usms",
 });
 
-app.get("/individualvsProgramaverage", (req,res) => {
+app.get("/individualCoursePLO", (req, res) => {
+  const sql1 = `
+  SELECT p.PLONumber as ploNumber,co.CourseID,sum(e.MarksObtained),sum(a.
+  TotalMarks), Data.Total
+  FROM usms.enrollment r,
+  usms.assessment a,
+  usms.evaluation e,
+  usms.co co,
+  usms.plo p,
+  (
+  SELECT p.ploNumber as ploNumber,sum(a.TotalMarks) as Total, r.StudentID as StudentID
+  FROM usms.enrollment r,
+  usms.assessment a,
+  usms.evaluation e,
+  usms.co co,
+  usms.plo p
+  WHERE r.EnrollmentID = e.EnrollmentID
+  and e.AssessmentID = a.AssessmentID
+  and a.COID=co.COID
+  and co.PLOID = p.PLOID
+  and co.courseID = ${req.body.courseID}
+  and r.StudentID = ${req.body.studentID}
+  GROUP BY r.StudentID, p.PLOID) Data
+  WHERE r.StudentID = Data.StudentID
+  and e.EnrollmentID = r.EnrollmentID
+  and e.AssessmentID = a.AssessmentID
+  and a.COID=co.COID
+  and co.PLOID = p.PLOID
+  and p.PLONumber = Data.PLONumber
+  GROUP BY p.PLOID,co.CourseID;`;
+
+  const sql2 = `
+  SELECT Data.ploNumber, avg(coursePercentage)
+  FROM(
+  SELECT p.PLOID as PLOID,p.PLONumber as ploNumber, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as coursePercentage
+  FROM usms.enrollment r,
+  usms.evaluation e,
+  usms.student st,
+  usms.program prog,
+  usms.course c,
+  usms.assessment a,
+  usms.co co,
+  usms.plo p
+  WHERE r.StudentID = st.StudentID
+  and st.DepartmentID = d.DepartmentID
+  and e.EnrollmentID = r.EnrollmentID
+  and a.AssessmentID = e.AssessmentID
+  and a.COID = co.COID
+  and co.PLOID = p.PLOID
+  and st.ProgramID = prog.ProgramID
+  and prog.ProgramID = c.ProgramID
+  and c.CourseID = ${req.body.courseID}
+  GROUP BY p.ploNumber,r.StudentID) Data
+  GROUP BY Data.ploNumber;
+  `;
+  db.query(sql1, (err, result) => {
+    res.send(result);
+  });
+  db.query(sql2, (err, result) => {
+    res.send(result);
+  });
+});
+
+app.get("/individualvsProgramaverage", (req, res) => {
   const sql1 = `SELECT p.PLONumber as plonumber,100*(sum( e.MarksObtained)/sum( a.TotalMarks)) as plopercent
   FROM usms.enrollment r,
   usms.assessment a,
@@ -32,7 +95,7 @@ app.get("/individualvsProgramaverage", (req,res) => {
   and a.COID=co.COID
   and co.PLOID = p.PLOID
   and r.StudentID = ${req.body.StudentID}
-  GROUP BY p.PLOID;`
+  GROUP BY p.PLOID;`;
 
   const sql2 = `SELECT Data.ploNumber, avg(perProgram)
   FROM(
@@ -52,21 +115,43 @@ app.get("/individualvsProgramaverage", (req,res) => {
   and c.PLOID = p.PLOID
   GROUP BY p.PLOID,r.StudentID) Data
   GROUP BY Data.PLOID;
-  `
+  `;
   db.query(sql1, (err, result) => {
     res.send(result);
   });
   db.query(sql2, (err, result) => {
     res.send(result);
   });
+});
 
-})
-
-app.get("/school/CGPA", (req, res) => {
-  const sqlInsert = `SELECT s.schoolName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
-  FROM spm.school s
-  JOIN spm.student t ON t.schoolID = s.schoolID
-  GROUP BY s.schoolName;`;
+app.get("/individualploachievementofcourses", (req, res) => {
+  const sqlInsert = `SELECT p.PLONumber as ploNumber,co.CourseID,sum(e.MarksObtained),sum(a.
+    TotalMarks), Data.T
+    FROM usms.enrollment r,
+    usms.assessment a,
+    usms.evaluation e,
+    usms.co co,
+    usms.plo p,
+    (
+    SELECT p.PLONumber as ploNumber,sum(a.TotalMarks) as T, 
+    r.StudentID as StudentID
+    FROM usms.enrollment r,
+    usms.assessment a,
+    usms.evaluation e,
+    usms.co co,
+    usms.plo p
+    WHERE r.EnrollmentID = e.EnrollmentID
+    and e.AssessmentID = a.AssessmentID
+    and a.COID =co.COID
+    and co.PLOID= p.PLOID
+    and r.StudentID= ${req.body.studentID}
+    GROUP BY r.StudentID,p.PLOID) Data
+    WHERE r.StudentID = Data.StudentID
+    and e.EnrollmentID = r.EnrollmentID
+    and e.AssessmentID= a.AssessmentID
+    and a.COID=co.PLOID
+    and p.ploNumber = Data.PLONumber
+    GROUP BY p.PLOID,co.CourseID;`;
 
   db.query(sqlInsert, (err, result) => {
     res.send(result);

@@ -8,7 +8,7 @@ const data = {
   datasets: [
     {
       label: "# of Votes",
-      data: [12, 19, 3],
+      data: [70, 81, 72],
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -150,7 +150,7 @@ function FacultyDashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Courses</p>
-                      <Card.Title as="h4">1</Card.Title>
+                      <Card.Title as="h4">3</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -172,7 +172,7 @@ function FacultyDashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Sections</p>
-                      <Card.Title as="h4">2</Card.Title>
+                      <Card.Title as="h4">3</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -194,7 +194,7 @@ function FacultyDashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Success Rate</p>
-                      <Card.Title as="h4">60%</Card.Title>
+                      <Card.Title as="h4">74%</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -216,7 +216,7 @@ function FacultyDashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">PLOs taught</p>
-                      <Card.Title as="h4">5</Card.Title>
+                      <Card.Title as="h4">6</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -235,8 +235,8 @@ function FacultyDashboard() {
             </h5>
           </div>
         </Row>
-        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
-          <div style={{ height: "50vh" }}>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: '10vh' }}>
+          <div style={{ height: "70vh" }}>
             <Pie data={data} />
           </div>
         </Row>
