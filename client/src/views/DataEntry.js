@@ -319,7 +319,7 @@ class DataEntry extends Component {
               </Col>
             </Row>
             <Button
-              variant="success"
+              variant="primary"
               type="submit"
               style={{ marginTop: "50px" }}
             >
@@ -413,7 +413,7 @@ class DataEntry extends Component {
               
             </Row>
             <Button
-              variant="success"
+              variant="primary"
               type="submit"
               style={{ marginTop: "50px" }}
             >

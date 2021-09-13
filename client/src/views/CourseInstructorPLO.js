@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Form, Button, Dropdown, Table } from "react-bootstrap";
+import { Form, Button, Container, Row } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 const data = {
@@ -147,65 +147,66 @@ class CourseInstructorPLO extends Component {
       },
     ];
     return (
-      <>
+      <Container>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="formBasicEmail" key="2">
-            <Form.Label>Select a Course</Form.Label>
-            <div className="select-container">
-              <select
-                value={this.state.course}
-                onChange={this.handleChange}
-                style={{
-                  width: "250px",
-                  height: "40px",
-                  border: "1px solid grey",
-                }}
-              >
-                {options.map((option) => (
-                  <option value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            </div>
-          </Form.Group>
-          <Form.Group controlId="formBasicEmail" key="2">
-            <Form.Label>From</Form.Label>
-            <div className="select-container">
-              <select
-                value={this.state.semesterStart}
-                onChange={this.handleSemesterStartChange}
-                style={{
-                  width: "250px",
-                  height: "40px",
-                  border: "1px solid grey",
-                }}
-              >
-                {semesterOptions.map((option) => (
-                  <option value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            </div>
-          </Form.Group>
-          <Form.Group controlId="formBasicEmail" key="2">
-            <Form.Label>To</Form.Label>
-            <div className="select-container">
-              <select
-                value={this.state.semesterEnd}
-                onChange={this.handleSemesterEndChange}
-                style={{
-                  width: "250px",
-                  height: "40px",
-                  border: "1px solid grey",
-                }}
-              >
-                {semesterOptions.map((option) => (
-                  <option value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            </div>
-          </Form.Group>
-
+          <Row>
+            <Form.Group controlId="formBasicEmail" key="2">
+              <Form.Label>Select a Course</Form.Label>
+              <div className="select-container">
+                <select
+                  value={this.state.course}
+                  onChange={this.handleChange}
+                  style={{
+                    width: "250px",
+                    height: "40px",
+                    border: "1px solid grey",
+                  }}
+                >
+                  {options.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail" key="2">
+              <Form.Label>From</Form.Label>
+              <div className="select-container">
+                <select
+                  value={this.state.semesterStart}
+                  onChange={this.handleSemesterStartChange}
+                  style={{
+                    width: "250px",
+                    height: "40px",
+                    border: "1px solid grey",
+                  }}
+                >
+                  {semesterOptions.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail" key="2">
+              <Form.Label>To</Form.Label>
+              <div className="select-container">
+                <select
+                  value={this.state.semesterEnd}
+                  onChange={this.handleSemesterEndChange}
+                  style={{
+                    width: "250px",
+                    height: "40px",
+                    border: "1px solid grey",
+                  }}
+                >
+                  {semesterOptions.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+            </Form.Group>
+          </Row>
           <Button
-            variant="success"
+            variant="primary"
             type="submit"
             style={{ marginTop: "20px", marginBottom: "30px" }}
           >
@@ -219,8 +220,10 @@ class CourseInstructorPLO extends Component {
             choosen time period.
           </h6>
         </div>
-        <Bar data={data} options={options} />
-      </>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+          <Bar data={data} options={options} />
+        </Row>
+      </Container>
     );
   }
 }

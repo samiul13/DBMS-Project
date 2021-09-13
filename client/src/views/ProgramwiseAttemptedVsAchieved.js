@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Form, Button, Dropdown, Table } from "react-bootstrap";
+import { Form, Button, Container, Row } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 const data = {
@@ -153,8 +153,9 @@ class ProgramwiseAttemptedVsAchieved extends Component {
       },
     ];
     return (
-      <>
+      <Container fluid>
         <Form onSubmit={this.handleSubmit}>
+          <Row>
           <Form.Group controlId="formBasicEmail" key="2">
             <Form.Label>Select a Program</Form.Label>
             <div className="select-container">
@@ -209,9 +210,9 @@ class ProgramwiseAttemptedVsAchieved extends Component {
               </select>
             </div>
           </Form.Group>
-
+                </Row>
           <Button
-            variant="success"
+            variant="primary"
             type="submit"
             style={{ marginTop: "20px", marginBottom: "30px" }}
           >
@@ -224,8 +225,10 @@ class ProgramwiseAttemptedVsAchieved extends Component {
             against that of those who achieved.
           </h6>
         </div>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
         <Bar data={data} options={options} />
-      </>
+        </Row>
+      </Container>
     );
   }
 }

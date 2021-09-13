@@ -96,7 +96,7 @@ class DeanStudentPerformance extends Component {
             />
           </Form.Group>
 
-          <Button variant="success" type="submit" style={{ marginTop: "50px" }}>
+          <Button variant="primary" type="submit" style={{ marginTop: "50px" }}>
             Submit
           </Button>
         </Form>

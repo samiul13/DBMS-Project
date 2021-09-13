@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Form, Button, Dropdown, Table } from "react-bootstrap";
+import { Form, Button, Container, Row } from "react-bootstrap";
 import { Pie } from 'react-chartjs-2';
 import "../assets/css/FormGroup.css";
 
@@ -217,7 +217,7 @@ class DepartmentSchoolPLO extends Component {
     ];
 
     return (
-      <>
+      <Container fluid>
       <p style={{ marginTop: "50px" }}>
           Compare School wise PLO of students who achieved all the PLOs:
         </p>
@@ -310,7 +310,12 @@ class DepartmentSchoolPLO extends Component {
           </Button>
         </Form>
         {this.state.data.length >= 0 ? (
-            <Pie data={data} width={80} height={80} />
+          <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: '20vh' }}>
+          <div style={{ height: "60vh" }}>
+          <Pie data={data} />
+          </div>
+        </Row>
+            
         ) : null}
 
         <p style={{ marginTop: "50px" }}>
@@ -402,14 +407,19 @@ class DepartmentSchoolPLO extends Component {
             
           </div>
 
-          <Button variant="success" type="submit" style={{ marginTop: "50px" }}>
+          <Button variant="primary" type="submit" style={{ marginTop: "50px" }}>
             Submit
           </Button>
         </Form>
         {this.state.data1.length >= 0 ? (
-            <Pie data={data1} width={80} height={80} />
+          <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+          <div style={{ height: "50vh" }}>
+          <Pie data={data1} />
+          </div>
+        </Row>
+            
         ) : null}
-      </>
+      </Container>
     );
   }
 }

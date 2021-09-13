@@ -10,25 +10,23 @@ function Sidebar({ color, image, routes }) {
   };
   return (
     <div className="sidebar" data-image={image} data-color={color}>
-      <div
-        className="sidebar-background"
-        
-      />
+      <div className="sidebar-background" />
       <div className="sidebar-wrapper">
-        <div className="logo d-flex align-items-center justify-content-start" style={{backgroundColor: "#e5e5e5", height: "76px"}}>
+        <div
+          className="logo d-flex align-items-center justify-content-start"
+          style={{ backgroundColor: "#e5e5e5", height: "76px" }}
+        >
           <a
             href="http://www.iub.edu.bd/"
             className="simple-text logo-mini mx-1"
           >
             <div className="logo-img">
               <img
-                src={require("assets/img/logo.png").default}
+                src={require("assets/img/logo1.png").default}
                 alt="..."
+                style={{ width: "250px !important", height: "250px" }}
               />
             </div>
-          </a>
-          <a href="http://www.iub.edu.bd/" style={{marginLeft: '10px', color: 'black'}}>
-            USMS
           </a>
         </div>
         <Nav>
@@ -51,7 +49,6 @@ function Sidebar({ color, image, routes }) {
                     <i className={prop.icon} />
                     <p>{prop.name}</p>
                   </NavLink>
-                  
                 </li>
               );
             return null;

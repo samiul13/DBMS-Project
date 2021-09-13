@@ -181,7 +181,7 @@ class FacultyCoursePLO extends Component {
           </Form.Group>
 
           <Button
-            variant="success"
+            variant="primary"
             type="submit"
             style={{ marginTop: "20px", marginBottom: "30px" }}
           >

@@ -324,7 +324,7 @@ class IndividualPLOAchieved extends Component {
             />
           </Form.Group>
 
-          <Button variant="success" type="submit" style={{ marginTop: "20px", marginBottom: '30px' }}>
+          <Button variant="primary" type="submit" style={{ marginTop: "20px", marginBottom: '30px' }}>
             Submit
           </Button>
         </Form>

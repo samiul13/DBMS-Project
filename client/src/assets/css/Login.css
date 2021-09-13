@@ -190,3 +190,10 @@ body {
     display: none !important;
   }
 }
+
+Button {
+  margin-top: 20px;
+  margin-bottom: 30px;
+   border: 2px solid #000a29;
+    color: #000a29
+}

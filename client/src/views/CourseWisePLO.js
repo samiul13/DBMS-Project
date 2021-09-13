@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
-import { Form, Button, Dropdown, Table } from "react-bootstrap";
+import { Form, Button, Container, Row } from "react-bootstrap";
 
 const data = {
   labels: ["CSE303", "CSE206", "CSE201", "CSE203", "CSE317", "CSE405"],
@@ -192,8 +192,9 @@ class CourseWisePLO extends Component {
     
    
     return (
-      <>
+      <Container>
         <Form onSubmit={this.handleSubmit}>
+          <Row>
           <Form.Group controlId="formBasicEmail" key="2">
             <Form.Label>Select a PLO</Form.Label>
             <div className="select-container">
@@ -248,6 +249,10 @@ class CourseWisePLO extends Component {
               </select>
             </div>
           </Form.Group>
+          </Row>
+          <Button variant="primary" type="submit" style={{ marginTop: "50px" }}>
+            Submit
+          </Button>
         </Form>
         <div className="header">
           <h6 className="title">
@@ -256,8 +261,10 @@ class CourseWisePLO extends Component {
             selected PLO/s, within the timeframe of chosen semester/s.
           </h6>
         </div>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
         <Bar data={data} options={options} />
-      </>
+        </Row>
+      </Container>
     );
   }
 }

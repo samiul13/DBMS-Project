@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Form, Button, Dropdown, Table } from "react-bootstrap";
+import { Form, Button, Dropdown, Table, Container, Row } from "react-bootstrap";
 import { Doughnut } from 'react-chartjs-2';
 
 const data = {
@@ -180,8 +180,11 @@ class FacultyPLOComparison extends Component {
       },
     ];
     return (
-      <>
+      <Container fluid
+      >
+      
         <Form onSubmit={this.handleSubmit}>
+        <Row>
           <Form.Group
             controlId="formBasicEmail"
             style={{ width: "13vw" }}
@@ -250,15 +253,18 @@ class FacultyPLOComparison extends Component {
               </select>
             </div>
           </Form.Group>
-
+                  </Row>
+                  <Row>
           <Button
-            variant="success"
+            variant="primary"
             type="submit"
             style={{ marginTop: "20px", marginBottom: "30px" }}
           >
             Submit
           </Button>
+          </Row>
         </Form>
+        <Row>
         <div className="header">
           <h6 className="title">
             Following chart shows the percentage of students who achieved each
@@ -266,8 +272,14 @@ class FacultyPLOComparison extends Component {
             frame.
           </h6>
         </div>
-        <Doughnut data={data} />
-      </>
+        </Row>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+          <div style={{ height: "50vh" }}>
+          <Doughnut data={data} />
+          </div>
+        </Row>
+       
+      </Container>
     );
   }
 }
