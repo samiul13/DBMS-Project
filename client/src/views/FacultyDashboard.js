@@ -228,20 +228,18 @@ function FacultyDashboard() {
             </Card>
           </Col>
         </Row>
-        <Row style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Row style={{ justifyContent: "center", alignItems: "center" }}>
           <div className="header">
             <h5 className="title">
               The Following Pie Chart shows the PLO achievement percentage:
             </h5>
           </div>
-          </Row>
-          <Row md={2} style={{ justifyContent: 'center', alignItems: 'center'}}>
-              <div style={{height: '50vh'}}>
-          <Pie data={data} />
-          </div>
-        
         </Row>
-       
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center" }}>
+          <div style={{ height: "50vh" }}>
+            <Pie data={data} />
+          </div>
+        </Row>
       </Container>
     </>
   );

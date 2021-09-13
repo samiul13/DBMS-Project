@@ -17,8 +17,50 @@ const db = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "CSE303Spring2021",
-  database: "spm",
+  database: "usms",
 });
+
+app.get("/individualvsProgramaverage", (req,res) => {
+  const sql1 = `SELECT p.PLONumber as plonumber,100*(sum( e.MarksObtained)/sum( a.TotalMarks)) as plopercent
+  FROM usms.enrollment r,
+  usms.assessment a,
+  usms.evaluation e,
+  usms.co co,
+  usms.plo p
+  WHERE r.EnrollmentID = e.EnrollmentID
+  and e.AssessmentID = a.AssessmentID
+  and a.COID=co.COID
+  and co.PLOID = p.PLOID
+  and r.StudentID = ${req.body.StudentID}
+  GROUP BY p.PLOID;`
+
+  const sql2 = `SELECT Data.ploNumber, avg(perProgram)
+  FROM(
+  SELECT p.PLOID as PLOID, p.PLONumber as ploNumber, 100*sum(e.MarksObtained)/sum(a.TotalMarks) as perProgram
+  FROM usms.enrollment r,
+  usms.evaluation e,
+  usms.student st,
+  usms.program prog,
+  usms.assessment a,
+  usms.co c,
+  usms.plo p
+  WHERE st.ProgramID = prog.ProgramID
+  and r.StudentID = st.StudentID
+  and e.EnrollmentID = r.EnrollmentID
+  and a.AssessmentID = e.AssessmentID
+  and a.COID = c.COID
+  and c.PLOID = p.PLOID
+  GROUP BY p.PLOID,r.StudentID) Data
+  GROUP BY Data.PLOID;
+  `
+  db.query(sql1, (err, result) => {
+    res.send(result);
+  });
+  db.query(sql2, (err, result) => {
+    res.send(result);
+  });
+
+})
 
 app.get("/school/CGPA", (req, res) => {
   const sqlInsert = `SELECT s.schoolName, ROUND(AVG(t.CGPA), 2) AS AVG_CGPA, COUNT(t.studentID) as noOfStudents
