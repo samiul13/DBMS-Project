@@ -1,7 +1,7 @@
 # DBMS-Project
 # University Student Monitoring System (USMS)
 
-This is a Full-Stack web application built with React, Nodejs and MySQL. This application allows monitor the performances of Students.
+This is a Full-Stack web application built with React, Nodejs, and MySQL. This application allows monitoring the performances of Students.
 
 ## Tech Stack
 * React
