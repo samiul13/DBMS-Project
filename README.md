@@ -89,4 +89,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 | Faculty       | Student          | Higher Authorities  |
 | ------------- |:-------------:| -----|
 | Username: 1234 | Username: 2022053 | Username: 5813 | Username: 2134
-| Password: summer2021    | Password: summer2021      | Password: 2021 | | Password: Summmer2021 |
+| Password: summer2021    | Password: summer2021      | Password: Summer2021 | | Password: Summmer2021 |
