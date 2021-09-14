@@ -1,11 +1,34 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ChartistGraph from "react-chartist";
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Pie } from "react-chartjs-2";
+import { Card, Container, Row, Col } from "react-bootstrap";
+
+const data = {
+  labels: ["CSE101", "CS101", "CSE201", "CSE203", "EEE204", "EEE307", "CSE301", "CSE303", "CSE405", "EEE401"],
+  datasets: [
+    {
+      label: "# of Votes",
+      data: [70, 71, 62, 55, 68, 77, 79, 72, 56, 81],
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.2)",
+        "rgba(54, 162, 235, 0.2)",
+        "rgba(255, 206, 86, 0.2)",
+        "rgba(75, 192, 192, 0.2)",
+        "rgba(153, 102, 255, 0.2)",
+        "rgba(255, 159, 64, 0.2)",
+      ],
+      borderColor: [
+        "rgba(255, 99, 132, 1)",
+        "rgba(54, 162, 235, 1)",
+        "rgba(255, 206, 86, 1)",
+        "rgba(75, 192, 192, 1)",
+        "rgba(153, 102, 255, 1)",
+        "rgba(255, 159, 64, 1)",
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
 
 function DeanDashboard() {
   const [programLabels, setProgramLabels] = useState([]);
@@ -14,7 +37,6 @@ function DeanDashboard() {
   const [schoolLabels, setSchoolLabels] = useState([]);
   const [schoolSeries, setSchoolSeries] = useState([]);
 
-  
   const [percentageLabels, setPercentageLabels] = useState([]);
   const [percentageSeries, setPercentageSeries] = useState([]);
 
@@ -50,7 +72,6 @@ function DeanDashboard() {
     distributeSeries: true,
   };
 
-
   var departmentData = {
     labels: departmentLabels,
     series: departmentSeries,
@@ -60,7 +81,6 @@ function DeanDashboard() {
     seriesBarDistance: 1,
     distributeSeries: true,
   };
-
 
   var type = "Bar";
   var type1 = "Pie";
@@ -105,7 +125,7 @@ function DeanDashboard() {
       .then((response) => response.json())
       .then((res) =>
         res.map((val) => {
-          var n = Math.round((val.noOfStudents/totalEnrollment)*100);
+          var n = Math.round((val.noOfStudents / totalEnrollment) * 100);
           var p = n.toString() + "%";
           setPercentageLabels((oldArray) => [...oldArray, p]);
           setPercentageSeries((oldArray) => [...oldArray, n]);
@@ -114,117 +134,111 @@ function DeanDashboard() {
       );
   }, []);
 
-
-
   return (
     <>
       <Container fluid>
-     
         <Row>
-          <Col md="8">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">School wise enrollment</Card.Title>
-              </Card.Header>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
               <Card.Body>
-                <div className="ct-chart" id="chartHours">
-                  <ChartistGraph data={schoolData} options={schoolOptions} type={type} />
-                </div>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-chart text-warning"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Courses</p>
+                      <Card.Title as="h4">11</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
               </Card.Body>
               <Card.Footer>
-                <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
                 <hr></hr>
               </Card.Footer>
             </Card>
           </Col>
-          <Col md="4">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">School wise enrollment comparison</Card.Title>
-                
-              </Card.Header>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
               <Card.Body>
-                <div
-                  className="ct-chart ct-perfect-fourth"
-                  id="chartPreferences"
-                >
-                <ChartistGraph data={percentageData} options={percentageOptions} type={type1} />
-                </div>
-                
-                <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-light-3 text-danger"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Sections</p>
+                      <Card.Title as="h4">43</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
               </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
+              <Card.Body>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-spaceship text-success"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Success Rate</p>
+                      <Card.Title as="h4">64%</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
+              <Card.Body>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-chart-pie-36 text-primary"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">PLOs taught</p>
+                      <Card.Title as="h4">12</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+
+              <Card.Footer>
+                <hr></hr>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
-        <Row>
-          <Col md="6">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Program wise enrollment</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <div className="ct-chart" id="chartActivity">
-                <ChartistGraph data={programData} options={programOptions} type={type}
-                    responsiveOptions={[
-                      [
-                        "screen and (max-width: 640px)",
-                        {
-                          seriesBarDistance: 5,
-                          axisX: {
-                            labelInterpolationFnc: function (value) {
-                              return value[0];
-                            },
-                          },
-                        },
-                      ],
-                    ]}
-                  />
-                </div>
-              </Card.Body>
-              <Card.Footer>
-              <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
-                <hr></hr>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col md="6">
-            <Card className="card-tasks">
-              <Card.Header>
-                <Card.Title as="h4">Department wise enrollment</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <div className="ct-chart" id="chartActivity">
-                <ChartistGraph data={departmentData} options={departmentOptions} type={type}
-                    responsiveOptions={[
-                      [
-                        "screen and (max-width: 640px)",
-                        {
-                          seriesBarDistance: 5,
-                          axisX: {
-                            labelInterpolationFnc: function (value) {
-                              return value[0];
-                            },
-                          },
-                        },
-                      ],
-                    ]}
-                  />
-                </div>
-              </Card.Body>
-              <Card.Footer>
-              <div className="legend">
-                  <h6>Year 2020</h6>
-                </div>
-                <hr></hr>
-              </Card.Footer>
-            </Card>
-          </Col>
+        <Row style={{ justifyContent: "center", alignItems: "center" }}>
+          <div className="header">
+            <h5 className="title">
+              The Following Pie Chart shows the PLO achievement percentage:
+            </h5>
+          </div>
+        </Row>
+        <Row md={2} style={{ justifyContent: "center", alignItems: "center", marginBottom: '10vh' }}>
+          <div style={{ height: "70vh" }}>
+            <Pie data={data} />
+          </div>
         </Row>
       </Container>
     </>

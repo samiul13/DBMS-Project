@@ -73,7 +73,7 @@ class DataEntry extends Component {
       .then((res) =>
         cogoToast.success(res.data, {
             position: "top-right",
-          })
+          })   
       );
      await axios
       .post("http://localhost:5000/course/updateGrades");
